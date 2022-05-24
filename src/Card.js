@@ -11,6 +11,7 @@ function Card({name}) {
 
     function navigate_to(docname){
         var fname=docname.split(".");
+        console.log("fname",fname)
         history.push("/form/" + fname[0])
 
     }
@@ -20,7 +21,7 @@ function Card({name}) {
         }}>
              <img src={doc_image} className="doc_card_image"></img>
              <div className="doc_card_content">
-                <h5 style={{overFlow:"ellipsis"}}>{name ? name : " Untitled Doc" }</h5>
+                <h5 style={{overFlow:"ellipsis"}}>{name ? name : " Untitled Doc 1" }</h5>
                 <div className="doc_content">
                     <div className="content_left" style={{fontSize:"12px",color:"grey"}}>
                     <StorageIcon style={{color:"white",fontSize:"12px",backgroundColor:"#6E2594",padding:"3px",marginRight:"3px",borderRadius:"2px"}}/>   Opened 6 Jan 2021

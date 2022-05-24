@@ -15,11 +15,12 @@ function Mainbody() {
             
             var request = await axios.get("http://localhost:9000/get_all_files")
             let files = request.data;
-            // filesn.forEach((file)=>{
+            console.log("files",files)
+            // files.forEach((file)=>{
             //     var id_=file.split(".")
             //     async function data(){
             //         var req = await axios.get(`http://localhost:9000/data/${id_[0]}`);
-            //          console.log(req.data.document_name)                    
+            //          console.log("req.data.document_name",req.data.document_name)                    
             //     }
             //     data()
             // })

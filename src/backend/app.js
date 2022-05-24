@@ -124,4 +124,4 @@ data.forEach((e, index) => {
 
 
 
-app.listen(9000,()=>{console.log("expresss server is running at port nnumber 3000")})
+app.listen(9000,()=>{console.log("expresss server is running at port number 9000")})
