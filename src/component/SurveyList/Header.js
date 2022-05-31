@@ -2,12 +2,12 @@ import {  IconButton } from '@material-ui/core'
 import  MenuIcon from '@material-ui/icons/Menu'
 import React from 'react'
 import "./Header.css"
-import formimage from "./forms_2020q4_48dp.png"
+import formimage from "./../../image/forms_2020q4_48dp.png"
 import SearchIcon from "@material-ui/icons/Search";
 import AppsIcon from '@material-ui/icons/Apps';
 import Avatar from '@material-ui/core/Avatar';
-import avatarimage from "./2.jpg"
-import TemporaryDrawer from "./Drawer"
+import avatarimage from "../../image/unnamed.jpg"
+import TemporaryDrawer from "../View/Drawer"
 
 function Header() {
     return (

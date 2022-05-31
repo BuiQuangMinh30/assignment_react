@@ -1,9 +1,9 @@
-import React from 'react'
-import form_image from "./google-forms-new-logo-1.png";
+import React, { useEffect, useState } from 'react'
+import form_image from "./../../image/google-forms-new-logo-1.png";
 import {FiStar, FiSettings} from "react-icons/fi"
 import {AiOutlineEye} from 'react-icons/ai'
 import {  IconButton } from '@material-ui/core'
-import avatarimage from "./2.jpg"
+import avatarimage from "./../../image/unnamed.jpg"
 import {IoMdFolderOpen} from "react-icons/io"
 
 import ColorLensIcon from '@material-ui/icons/ColorLens';
@@ -13,16 +13,35 @@ import Avatar from '@material-ui/core/Avatar';
 
 import "./Formheader.css"
 import { useHistory } from 'react-router-dom';
-import { useStateValue } from './StateProvider'
-import AlertDialog from './Alert';
+import { useStateValue } from '../../StateProvider'
+import AlertDialog from '../../Alert';
+import axios from "axios";
+import { useParams } from "react-router";
 
-function Formheader() {
+function Formheader(props) {
+    let { id } = useParams();
     const history = useHistory();
-  const [{doc_name}, dispatch] = useStateValue();
+    const [{doc_name}, dispatch] = useStateValue();
+//    console.log('id',id,doc_name)\
+    const [files,setFiles]=useState([]);
+    console.log('id', id)
+    useEffect(() => {
+    async function filenames(){
+        
+        var request = await axios.get(`http://localhost:3000/survey/${id}`)
+        let files = request.data;
+       
+        setFiles(files)
+        console.log('typeof', typeof(setFiles))
+       
+    }
+    filenames()
+    
+    },[])
 
 
-    function navigates(){
-        history.push("/response")
+    async function navigates(){
+        history.push("/response/"+id)
     }
 
     return (

@@ -52,26 +52,27 @@ import DragIndicatorIcon from "@material-ui/icons/DragIndicator";
 
 import SaveIcon from "@material-ui/icons/Save";
 
-import { useStateValue } from "./StateProvider";
-import { actionTypes } from "./reducer";
+import { useStateValue } from "../../StateProvider";
+import { actionTypes } from "../../redux/reducer";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
+import { postServey } from "../../redux/services";
 
 import axios from "axios";
 
 function Question_form() {
   const [{}, dispatch] = useStateValue();
   const [questions, setQuestions] = useState([]);
-  const [documentName, setDocName] = useState("untitled Document");
+  const [documentName, setDocName] = useState("Mẫu không có tiêu đề");
 
-  const [documentDescription, setDocDesc] = useState("Add Description");
+  const [documentDescription, setDocDesc] = useState("Mô tả biểu mẫu");
 
   const [questionType, setType] = useState("radio");
   const [questionRequired, setRequired] = useState("true");
   let { id } = useParams();
-  let jsonObj = `${id}.json`;
+  console.log('id question form', id)
 
-  console.log(id);
+
   useEffect(() => {
     var newQuestion = {
       questionText: "Question",
@@ -88,7 +89,7 @@ function Question_form() {
 
   useEffect(() => {
     async function data_adding() {
-      var request = await axios.get(`http://localhost:9000/data/${id}`);
+      var request = await axios.get(`http://localhost:3000/survey/${id}`);
       console.log("sudeep");
       var question_data = request.data.questions;
       console.log(question_data);
@@ -117,10 +118,10 @@ function Question_form() {
   }, []);
 
   function changeType(e) {
-    // dispatch({
-    //   type:"CHANGE_TYPE",
-    //   questionType:e.target.id
-    // })
+    dispatch({
+      type:"CHANGE_TYPE",
+      questionType:e.target.id
+    })
     setType(e.target.id);
   }
 
@@ -140,30 +141,41 @@ function Question_form() {
     setQuestions(questions);
   }
 
-  function commitToDB() {
-    console.log(questions);
+  const commitToDB = async() => {
+    
     dispatch({
       type: actionTypes.SET_QUESTIONS,
       questions: questions,
     });
-
-    axios.post(`http://localhost:9000/add_questions/${id}`, {
-      document_name: documentName,
-      doc_desc: documentDescription,
-      questions: questions,
+    dispatch({
+      type: actionTypes.SET_DOC_NAME,
+      doc_name: documentName,
     });
+
+    dispatch({
+      type: actionTypes.SET_DOC_DESC,
+      doc_desc: documentDescription,
+    });
+    console.log('questionsssss', questions);
+
+    axios.post(`http://localhost:3000/survey/`, {
+          id: id,
+          document_name: documentName,
+          doc_desc: documentDescription,
+          questions: questions,
+        });
   }
 
-  const history = useHistory();
-  const baseURL = "http://localhost:3000/form";
-  function deletetoDB(person) {
-    // axios.delete(`${baseURL}/${person.id}`)
-    //  .then(response => {
-    //    console.log("response",response)
-    //    window.confirm(`Delete ${person.name}?`);
+  // const history = useHistory();
+  
+  // function deletetoDB(person) {
+  //   // axios.delete(`${baseURL}/${person.id}`)
+  //   //  .then(response => {
+  //   //    console.log("response",response)
+  //   //    window.confirm(`Delete ${person.name}?`);
 
-    history.push("/");
-  }
+  //   history.push("/");
+  // }
 
   function addMoreQuestionField() {
     expandCloseAll(); //I AM GOD
@@ -264,7 +276,7 @@ function Question_form() {
     Questions[qno].answer = ans;
 
     setQuestions(Questions);
-    console.log(qno + " " + ans);
+    
   }
 
   function setOptionPoints(points, qno) {
@@ -273,7 +285,7 @@ function Question_form() {
     Questions[qno].points = points;
 
     setQuestions(Questions);
-    console.log(qno + " " + points);
+   
   }
   function addAnswer(i) {
     var answerOfQuestion = [...questions];
@@ -798,7 +810,7 @@ function Question_form() {
   }
 
   return (
-    <div>
+    <div dataFromParent={id}>
       <div className="question_form">
         <br></br>
         <div className="section">
@@ -852,7 +864,7 @@ function Question_form() {
             <Button
               variant="contained"
               color="error"
-              onClick={deletetoDB}
+              // onClick={deletetoDB}
               style={{ fontSize: "14px" }}
             >
               Delete

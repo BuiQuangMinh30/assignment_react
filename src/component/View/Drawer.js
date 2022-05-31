@@ -13,13 +13,13 @@ import { IconButton } from '@material-ui/core'
 import  MenuIcon from '@material-ui/icons/Menu'
 import {FiSettings}  from "react-icons/fi"
 import {BsQuestionCircle} from "react-icons/bs"
-import formimage from "./forms_2020q4_48dp.png"
-import excelsheetimage from "./google-sheets.png"
+import formimage from "./../../image/forms_2020q4_48dp.png"
+import excelsheetimage from "./../../image/google-sheets.png"
 
-import docimage from "./google-docs--v1.png"
+import docimage from "./../../image/google-docs--v1.png"
 
-import slidesimage from "./google-slides.png"
-import driveimage from "./google-drive--v1.png"
+import slidesimage from "./../../image/google-slides.png"
+import driveimage from "./../../image/google-drive--v1.png"
 
 
 

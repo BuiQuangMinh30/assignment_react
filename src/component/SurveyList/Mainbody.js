@@ -4,7 +4,7 @@ import StorageIcon from '@material-ui/icons/Storage';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import { IconButton } from '@material-ui/core';
-import Card from "./Card" 
+import Card from "../Survey/Card" 
 import axios from "axios";
 
 function Mainbody() {
@@ -13,18 +13,12 @@ function Mainbody() {
     useEffect(() => {
         async function filenames(){
             
-            var request = await axios.get("http://localhost:9000/get_all_files")
+            var request = await axios.get("http://localhost:3000/survey")
             let files = request.data;
             console.log("files",files)
-            // files.forEach((file)=>{
-            //     var id_=file.split(".")
-            //     async function data(){
-            //         var req = await axios.get(`http://localhost:9000/data/${id_[0]}`);
-            //          console.log("req.data.document_name",req.data.document_name)                    
-            //     }
-            //     data()
-            // })
+           
             setFiles(files)
+            console.log('typeof', typeof(setFiles))
            
         }
         filenames()
@@ -50,11 +44,13 @@ function Mainbody() {
             </div>
             <div className="main_docs">
                  {
-                    files.map((ele)=>(
-                        <Card name={ele}/>
-                    ))            
+                    files.map((ele,index)=>{
+                        return (
+                            <Card  key={index} name={ele}/>
+                        )
+                    })            
                  }
-                 <Card />   
+                 {/* <Card />    */}
             </div>
         </div>
     )

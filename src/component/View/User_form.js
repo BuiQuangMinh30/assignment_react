@@ -2,14 +2,14 @@ import { Button, Typography } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
-
 import { useHistory } from "react-router-dom";
-
 import "./user_form.css";
-import { useStateValue } from "./StateProvider";
-
+import { useStateValue } from "../../StateProvider";
 import axios from "axios";
-import e from "cors";
+import { actionTypes } from "../../redux/reducer";
+import { useParams } from "react-router";
+
+
 function User_form() {
   var quest = [];
   var post_answer = [];
@@ -18,6 +18,10 @@ function User_form() {
   var [answer, setAnswer] = useState([]);
   var [{ questions, doc_name, doc_desc }, dispatch] = useStateValue();
 
+  let { id } = useParams();
+  const d = new Date();
+  const idText = `${id}_${d.getSeconds()}_${d.getMilliseconds()}`
+  
   function select(que, option) {
    
     var k = answer.findIndex((ele) => ele.question == que);
@@ -36,13 +40,38 @@ function User_form() {
     questions.map((q, qindex) => {
       quest.push({ header: q.questionText, key: q.questionText });
     });
-    
+  
   }, [questions, answer]);
+  
+  useEffect(() => {
+    async function data_adding() {
+      var request = await axios.get(`http://localhost:3000/survey/${id}`);
+   
+      var question_data = request.data.questions;
+      console.log(question_data);
+      var doc_name = request.data.document_name;
+      var doc_descip = request.data.doc_desc;
+      dispatch({
+        type: actionTypes.SET_DOC_NAME,
+        doc_name: doc_name,
+      });
+
+      dispatch({
+        type: actionTypes.SET_DOC_DESC,
+        doc_desc: doc_descip,
+      });
+      dispatch({
+        type: actionTypes.SET_QUESTIONS,
+        questions: question_data,
+      });
+    }
+
+    data_adding();
+  }, []);
 
   var post_answer_data = {};
   function selectinputText(que,value, index) {
     var k = answer.findIndex((ele) => ele.question == que);
-    console.log('key', k)
     if(k){
       answer[k].answer = answerText;
     }else{
@@ -75,13 +104,21 @@ function User_form() {
 
   function submit() {
     answer.map((ele) => {
+     
       post_answer_data[ele.question] = ele.answer;
     });
-    console.log('submit answer', post_answer_data);
 
-    axios.post(`http://localhost:9000/student_response/${doc_name}`, {
-      column: quest,
-      answer_data: [post_answer_data],
+    // Object.values(post_answer_data);
+    // let arrayAnswer = Object.keys(post_answer_data);
+    // let arrayAnswer1 = arrayAnswer.shift()
+    delete post_answer_data.Question
+    console.log('submit answer', post_answer_data, questions.questionText, answerText);
+
+    axios.post(`http://localhost:3000/answer_request/`, {
+      id: idText,
+      cloumn: id,
+      list_answer : answer
+       
     });
 
     history.push(`/submitted`);
@@ -104,7 +141,7 @@ function User_form() {
                   letterSpacing: ".1px",
                   lineHeight: "24px",
                   paddingBottom: "8px",
-                  fontSize: "14px",
+                 
                 }}
               >
                 {qindex + 1}. {question.questionText}
@@ -123,7 +160,7 @@ function User_form() {
                               className="form-check-input"
                              
                               required={question.required}
-                              style={{marginLeft:"150px",marginRight:"5px"}}
+                              style={{marginLeft:"5px",marginRight:"5px"}}
                                onChange={(e)=>{selectcheck(e.target.checked,question.questionText,ques.optionText)}}
                             />{" "}
                             {ques.optionText}
@@ -181,7 +218,7 @@ function User_form() {
             </Button>
           </div>
 
-          <div className="user_footer">Google Forms</div>
+          <div className="user_footer">Bình Javascript :v</div>
         </div>
       </div>
     </div>

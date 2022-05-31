@@ -1,14 +1,14 @@
 
 import React from 'react';
 import {BrowserRouter as Router ,Switch, Route} from "react-router-dom"
-import Formheader from './Formheader';
-import Header from "./Header"
-import Mainbody from './Mainbody';
-import SubmitForm from './QuestionPaper';
-import Question_form from './Question_form';
-import CenteredTabs from './Tabs';
-import Templates from './Templates';
-import User_form from './user_form';
+import Formheader from '../src/component/Survey/Formheader';
+import Header from "../src/component/SurveyList/Header"
+import Mainbody from '../src/component/SurveyList/Mainbody';
+import SubmitForm from './component/View/QuestionPaper';
+// import Question_form from './Question_form';
+import CenteredTabs from '../src/component/Survey/Tabs';
+import Templates from './component/SurveyList/Templates';
+import User_form from './component/View/User_form';
 
 
 
@@ -25,7 +25,7 @@ function App() {
                  <CenteredTabs />
               </Route>
 
-              <Route path="/response">
+              <Route path="/response/:id">
                  <User_form />
               </Route>
 
@@ -33,7 +33,6 @@ function App() {
                  <SubmitForm />
               </Route>
 
-              
               
               <Route path="/">
                 <Header />
