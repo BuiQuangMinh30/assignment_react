@@ -8,24 +8,28 @@ import { useStateValue } from "../../StateProvider";
 import axios from "axios";
 import { actionTypes } from "../../redux/reducer";
 import { useParams } from "react-router";
-
+import { Icon, Input } from "semantic-ui-react";
+import validator from "validator";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function User_form() {
   var quest = [];
   var post_answer = [];
   var history = useHistory();
-  var [answerText, setAnswerText] = useState('')
+  var [answerText, setAnswerText] = useState("");
   var [answer, setAnswer] = useState([]);
+  var [email, setEmail] = useState("");
   var [{ questions, doc_name, doc_desc }, dispatch] = useStateValue();
+  console.log("email: " + email);
 
   let { id } = useParams();
   const d = new Date();
-  const idText = `${id}_${d.getSeconds()}_${d.getMilliseconds()}`
-  
+  const idText = `${id}_${d.getSeconds()}_${d.getMilliseconds()}`;
+
   function select(que, option) {
-   
     var k = answer.findIndex((ele) => ele.question == que);
-    
+
     answer[k].answer = option;
     setAnswer(answer);
   }
@@ -40,13 +44,12 @@ function User_form() {
     questions.map((q, qindex) => {
       quest.push({ header: q.questionText, key: q.questionText });
     });
-  
   }, [questions, answer]);
-  
+
   useEffect(() => {
     async function data_adding() {
       var request = await axios.get(`http://localhost:3000/survey/${id}`);
-   
+
       var question_data = request.data.questions;
       console.log(question_data);
       var doc_name = request.data.document_name;
@@ -70,22 +73,31 @@ function User_form() {
   }, []);
 
   var post_answer_data = {};
-  function selectinputText(que,value, index) {
+  function selectinputText(que, value, index) {
     var k = answer.findIndex((ele) => ele.question == que);
-    if(k){
+    if (k) {
       answer[k].answer = answerText;
-    }else{
-      console.log('answer loi')
+    } else {
+      console.log("answer loi");
     }
     setAnswer(answer);
-    console.log('answer', answer)
+    console.log("answer", answer);
   }
 
   function selectcheck(e, que, option) {
     var d = [];
-   
-    var k = answer.findIndex((e) => e.question ==que);
-    console.log('selectcheck', e, que, option, "k: ",k, "answer[k]: ",answer[k])
+
+    var k = answer.findIndex((e) => e.question == que);
+    console.log(
+      "selectcheck",
+      e,
+      que,
+      option,
+      "k: ",
+      k,
+      "answer[k]: ",
+      answer[k]
+    );
     if (answer[k].answer) {
       d = answer[k].answer.split(",");
     }
@@ -104,25 +116,42 @@ function User_form() {
 
   function submit() {
     answer.map((ele) => {
-     
       post_answer_data[ele.question] = ele.answer;
     });
-
-    // Object.values(post_answer_data);
-    // let arrayAnswer = Object.keys(post_answer_data);
-    // let arrayAnswer1 = arrayAnswer.shift()
-    delete post_answer_data.Question
-    console.log('submit answer', post_answer_data, questions.questionText, answerText);
-
-    axios.post(`http://localhost:3000/answer_request/`, {
-      id: idText,
-      cloumn: id,
-      list_answer : answer
-       
-    });
-
-    history.push(`/submitted`);
+    delete answer.shift(0);
+    
+    if (!validator.isEmail(email)) {
+      console.log("err");
+      toast.error("Lỗi rồi, phải nhập đúng email", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } else {
+      console.log('answer', answer)
+     toast.success("Thành công", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+        axios.post(`http://localhost:3000/answer_request/`, {
+          id: idText,
+          cloumn: email,
+          list_answer: answer,
+        });
+        history.push(`/submitted`);
+      
+    }
   }
+
   return (
     <div className="submit">
       <div className="user_form">
@@ -130,7 +159,32 @@ function User_form() {
           <div className="user_title_section">
             <Typography style={{ fontSize: "26px" }}>{doc_name}</Typography>
             <Typography style={{ fontSize: "15px" }}>{doc_desc}</Typography>
+            <br />
+            <label>Nhập email của bạn</label>
+            <Input
+              className="input-email"
+              onChange={(e) => setEmail(e.target.value)}
+              iconPosition="left"
+              placeholder="Email"
+            >
+              <Icon name="at" />
+              <input />
+            </Input>
           </div>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+          {/* Same as */}
+          <ToastContainer />
+          <div></div>
 
           {questions.map((question, qindex) => (
             <div className="user_form_questions">
@@ -141,12 +195,11 @@ function User_form() {
                   letterSpacing: ".1px",
                   lineHeight: "24px",
                   paddingBottom: "8px",
-                 
                 }}
               >
                 {qindex + 1}. {question.questionText}
               </Typography>
-              {question.options.map((ques, index)  =>  (
+              {question.options.map((ques, index) => (
                 <div key={index} style={{ marginBottom: "5px" }}>
                   <div style={{ display: "flex" }}>
                     <div className="form-check">
@@ -158,10 +211,15 @@ function User_form() {
                               name={qindex}
                               value={ques.optionText}
                               className="form-check-input"
-                             
                               required={question.required}
-                              style={{marginLeft:"5px",marginRight:"5px"}}
-                               onChange={(e)=>{selectcheck(e.target.checked,question.questionText,ques.optionText)}}
+                              style={{ marginLeft: "5px", marginRight: "5px" }}
+                              onChange={(e) => {
+                                selectcheck(
+                                  e.target.checked,
+                                  question.questionText,
+                                  ques.optionText
+                                );
+                              }}
                             />{" "}
                             {ques.optionText}
                           </label>
@@ -174,16 +232,18 @@ function User_form() {
                               // value={answer.map(ele)=> ele.}
                               className="form-check-input"
                               required={question.required}
-                              style={{ marginLeft: "105px", marginRight: "5px" }}
-                              onChange={e =>{
+                              style={{
+                                marginLeft: "5px",
+                                marginRight: "5px",
+                              }}
+                              onChange={(e) => {
                                 selectinputText(
                                   question.questionText,
                                   setAnswerText(e.target.value),
                                   index
-                                )
-                              } }
+                                );
+                              }}
                             />{" "}
-                            
                           </label>
                         )
                       ) : (
@@ -195,7 +255,9 @@ function User_form() {
                             className="form-check-input"
                             required={question.required}
                             style={{ marginLeft: "5px", marginRight: "5px" }}
-                            onChange={()=>{select(question.questionText,ques.optionText)}}
+                            onChange={() => {
+                              select(question.questionText, ques.optionText);
+                            }}
                           />
                           {ques.optionText}
                         </label>

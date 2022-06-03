@@ -22,7 +22,6 @@ function Formheader(props) {
     let { id } = useParams();
     const history = useHistory();
     const [{doc_name}, dispatch] = useStateValue();
-//    console.log('id',id,doc_name)\
     const [files,setFiles]=useState([]);
     console.log('id', id)
     useEffect(() => {
@@ -32,8 +31,6 @@ function Formheader(props) {
         let files = request.data;
        
         setFiles(files)
-        console.log('typeof', typeof(setFiles))
-       
     }
     filenames()
     

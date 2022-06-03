@@ -9,7 +9,7 @@ padding-bottom:30px;
 
 .section{
     margin: auto;
-    width:50%;
+    width:60%;
 
 }
 
@@ -232,24 +232,97 @@ background:transparent;
 .saved_questions
 {
     background-color: white;
-
     border-radius: 8px;
     padding:20px 2px;
     text-transform: capitalize;
     display:flex;
     flex-direction: column;
-
-    
 }
 
-.options{
-  
-}
 
 .add_border{
     border-left:6px solid #4285f4;
 }
 
-.save_form{
+
+
+.form-input{
+    display: flex;
+    justify-content: flex-start;
     margin:15px;
+    gap: 15px;
 }
+/* index.css */ 
+.modal {
+    font-size: 12px;
+    background: gray;
+  }
+  .modal > .header {
+    width: 100%;
+    border-bottom: 1px solid gray;
+    font-size: 18px;
+    text-align: center;
+    background: silver;
+  }
+  .header {
+    position: sticky;
+    margin-left: 0px;
+    /* margin-right: 10px; */
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: flex;
+    height: 47px;
+    background-color: white;
+    color: black;
+    justify-content: space-between;
+    align-items: center;
+}
+  .modal > .content {
+    width: 100%;
+    padding: 10px 5px;
+    font-size: 16px;
+  }
+  .modal > .actions {
+    margin: auto;
+  }
+  .modal > .actions {
+    width: 100%;
+    padding: 10px 5px;
+    text-align: center;
+  }
+  .modal > .close {
+      cursor: pointer;
+    position: absolute;
+    display: block;
+    padding: 4px 6px;
+    line-height: 20px;
+    right: -10px;
+    top: -8px;
+    font-size: 24px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #cfcece;
+    z-index: 100;
+    justify-content: center;
+    justify-items: center;
+  }
+  .modal-button{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin: 5px;
+  }
+  .modal-button .button {   
+      cursor: pointer;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    background: rgb(62 147 206);
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+.button-delete{
+    background: rgb(217, 224, 79) !important;
+    color: rgb(42, 41, 41) !important;
+  }

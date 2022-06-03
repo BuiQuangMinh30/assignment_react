@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Question_form.css";
-
+import Content from "./Content.js";
 import CropOriginalIcon from "@material-ui/icons/CropOriginal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -57,25 +57,20 @@ import { actionTypes } from "../../redux/reducer";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import { postServey } from "../../redux/services";
-import { ToastContainer, toast } from 'react-toastify';
-import { ToastProvider } from 'react-toast-notifications';
+import Popup from "reactjs-popup";
 
 import axios from "axios";
-import DatePicker from "react-datepicker";
-
-import "react-datepicker/dist/react-datepicker.css";
 
 function Question_form() {
   const [{}, dispatch] = useStateValue();
   const [questions, setQuestions] = useState([]);
-  const [startDate, setStartDate] = useState(new Date());
   const [documentName, setDocName] = useState("Mẫu không có tiêu đề");
+
   const [documentDescription, setDocDesc] = useState("Mô tả biểu mẫu");
+
   const [questionType, setType] = useState("radio");
   const [questionRequired, setRequired] = useState("true");
   let { id } = useParams();
-  console.log('id question form', startDate)
-
 
   useEffect(() => {
     var newQuestion = {
@@ -91,41 +86,41 @@ function Question_form() {
     setQuestions([...questions, newQuestion]);
   }, []);
 
-  // useEffect(() => {
-  //   async function data_adding() {
-  //     var request = await axios.get(`http://localhost:3000/survey/${id}`);
-  //     console.log("sudeep");
-  //     var question_data = request.data.questions;
-  //     console.log(question_data);
-  //     var doc_name = request.data.document_name;
-  //     var doc_descip = request.data.doc_desc;
-  //     console.log(doc_name + " " + doc_descip);
-  //     setDocName(doc_name);
-  //     setDocDesc(doc_descip);
-  //     setQuestions(question_data);
-  //     dispatch({
-  //       type: actionTypes.SET_DOC_NAME,
-  //       doc_name: doc_name,
-  //     });
+  useEffect(() => {
+    async function data_adding() {
+      var request = await axios.get(`http://localhost:3000/survey/${id}`);
+      console.log("sudeep");
+      var question_data = request.data.questions;
+      console.log(question_data);
+      var doc_name = request.data.document_name;
+      var doc_descip = request.data.doc_desc;
+      console.log(doc_name + " " + doc_descip);
+      setDocName(doc_name);
+      setDocDesc(doc_descip);
+      setQuestions(question_data);
+      dispatch({
+        type: actionTypes.SET_DOC_NAME,
+        doc_name: doc_name,
+      });
 
-  //     dispatch({
-  //       type: actionTypes.SET_DOC_DESC,
-  //       doc_desc: doc_descip,
-  //     });
-  //     dispatch({
-  //       type: actionTypes.SET_QUESTIONS,
-  //       questions: question_data,
-  //     });
-  //   }
+      dispatch({
+        type: actionTypes.SET_DOC_DESC,
+        doc_desc: doc_descip,
+      });
+      dispatch({
+        type: actionTypes.SET_QUESTIONS,
+        questions: question_data,
+      });
+    }
 
-  //   data_adding();
-  // }, []);
+    data_adding();
+  }, []);
 
   function changeType(e) {
     dispatch({
-      type:"CHANGE_TYPE",
-      questionType:e.target.id
-    })
+      type: "CHANGE_TYPE",
+      questionType: e.target.id,
+    });
     setType(e.target.id);
   }
 
@@ -145,8 +140,7 @@ function Question_form() {
     setQuestions(questions);
   }
 
-  const commitToDB = async() => {
-    
+  const commitToDB = async () => {
     dispatch({
       type: actionTypes.SET_QUESTIONS,
       questions: questions,
@@ -160,16 +154,15 @@ function Question_form() {
       type: actionTypes.SET_DOC_DESC,
       doc_desc: documentDescription,
     });
-    axios.post(`http://localhost:3000/survey/`, {
-          id: id,
-          endDate: setStartDate,
-          document_name: documentName,
-          doc_desc: documentDescription,
-          questions: questions,
-        });
+
+    axios.put(`http://localhost:3000/survey/${id}`, {
+      document_name: documentName,
+      doc_desc: documentDescription,
+      questions: questions,
+    });
     
-  }
- 
+  };
+  const deletetoDB = async () => {};
 
   function addMoreQuestionField() {
     expandCloseAll(); //I AM GOD
@@ -212,9 +205,9 @@ function Question_form() {
 
   function handleOptionValue(text, i, j) {
     var optionsOfQuestion = [...questions];
-    console.log("optionsOfQuestion",optionsOfQuestion)
+    console.log("optionsOfQuestion", optionsOfQuestion);
     optionsOfQuestion[i].options[j].optionText = text;
-    console.log("text",text)
+    console.log("text", text);
 
     setQuestions(optionsOfQuestion);
   }
@@ -270,7 +263,6 @@ function Question_form() {
     Questions[qno].answer = ans;
 
     setQuestions(Questions);
-    
   }
 
   function setOptionPoints(points, qno) {
@@ -279,7 +271,6 @@ function Question_form() {
     Questions[qno].points = points;
 
     setQuestions(Questions);
-   
   }
   function addAnswer(i) {
     var answerOfQuestion = [...questions];
@@ -441,7 +432,7 @@ function Question_form() {
                             ></input>
                             <CropOriginalIcon style={{ color: "#5f6368" }} />
 
-{/* Chọn type */}
+                            {/* Chọn type */}
                             <Select
                               className="select"
                               style={{ color: "#5f6368", fontSize: "13px" }}
@@ -498,7 +489,6 @@ function Question_form() {
 
                           {ques.options.map((op, j) => (
                             <div className="add_question_body" key={j}>
-                            
                               {ques.questionType != "text" ? (
                                 <input
                                   type={ques.questionType}
@@ -510,29 +500,29 @@ function Question_form() {
                                 />
                               )}
                               <div>
-                              {ques.questionType != "text" ? (
-                                <input
-                                type="text"
-                                className="text_input"
-                                placeholder="option"
-                                value={ques.options[j].optionText}
-                                onChange={(e) => {
-                                  handleOptionValue(e.target.value, i, j);
-                                }}
-                              ></input>
-                              ) : (
-                                <input
-                                type="text"
-                                className="text_input"
-                                placeholder="Nhap thong tin o day"
-                                // value={"Hello"}
-                                value={""}
-                                // onChange={(e) => {
-                                //   handleOptionValue(e.target.value, i, j);
-                                // }}
-                                ></input>
-                              )}
-                               </div>
+                                {ques.questionType != "text" ? (
+                                  <input
+                                    type="text"
+                                    className="text_input"
+                                    placeholder="option"
+                                    value={ques.options[j].optionText}
+                                    onChange={(e) => {
+                                      handleOptionValue(e.target.value, i, j);
+                                    }}
+                                  ></input>
+                                ) : (
+                                  <input
+                                    type="text"
+                                    className="text_input"
+                                    placeholder="Nhap thong tin o day"
+                                    // value={"Hello"}
+                                    value={""}
+                                    // onChange={(e) => {
+                                    //   handleOptionValue(e.target.value, i, j);
+                                    // }}
+                                  ></input>
+                                )}
+                              </div>
                               <CropOriginalIcon style={{ color: "#5f6368" }} />
 
                               <IconButton
@@ -829,11 +819,6 @@ function Question_form() {
                   setDocDesc(e.target.value);
                 }}
               ></input>
-
-              <div className="date-select">
-                <p>Chọn ngày kết thúc báo cáo</p>
-                <DatePicker minDate={Date.now()} selected={startDate} onChange={(date) => setStartDate(date)} />
-              </div>
             </div>
           </div>
 
@@ -849,17 +834,24 @@ function Question_form() {
             </Droppable>
           </DragDropContext>
 
-          <div className="save_form">
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={commitToDB}
-              style={{ fontSize: "14px" }}
-            >
-              Save
-            </Button>
+          <div className="form-input">
+            <div className="save_form">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={commitToDB}
+                style={{ fontSize: "14px" }}
+              >
+                Save
+              </Button>
+            </div>
+           
+              {/* <!-- Button trigger modal --> */}
+              <Popup modal trigger={<button>Click Me</button>}>
+                {close => <Content close={close} id={id}/>}
+             </Popup>
+          
           </div>
-         
         </div>
       </div>
     </div>

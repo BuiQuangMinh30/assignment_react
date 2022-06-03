@@ -5,6 +5,16 @@
     height:100%;
     padding:20px;
 }
+.input-email input{
+    width: 240px;
+    height: 24px;
+    margin-top: 10px;
+}
+.mess-error{
+    font-size: 14px;
+    color: red;
+    margin-top: 4px;
+}
 .submit{
     
     background-color:#F4F4F9;

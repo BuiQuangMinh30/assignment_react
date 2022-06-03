@@ -5,6 +5,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import FolderOpenIcon from '@material-ui/icons/FolderOpen';
 import { IconButton } from '@material-ui/core';
 import Card from "../Survey/Card" 
+import Card_User from '../View/Card_User'
 import axios from "axios";
 
 function Mainbody() {
@@ -13,13 +14,11 @@ function Mainbody() {
     useEffect(() => {
         async function filenames(){
             
-            var request = await axios.get("http://localhost:3000/survey")
+            // var request = await axios.get("https://localhost:44334/api/surveys")
+            var request = await axios.get("http://localhost:3000/survey/")
+            
             let files = request.data;
-            console.log("files",files)
-           
             setFiles(files)
-            console.log('typeof', typeof(setFiles))
-           
         }
         filenames()
         
@@ -42,11 +41,38 @@ function Mainbody() {
                     </ IconButton>
                 </div>
             </div>
+            <h2 className='text-divider'>List Servey</h2>
+            <div className="main_docs">
+                    
+                 {
+                    files.map((ele,index)=>{
+                        return (
+                            <>
+                            <div className="docs-content">
+                                <div className="docs-survey">
+                                    <Card  key={index} name={ele}/>
+                                </div>
+                               
+                            </div>
+                            </>
+                        )
+                    })            
+                 }
+                 {/* <Card />    */}
+            </div>
+            <h2 className='text-divider' style={{marginTop:"30px"}}>List Report</h2>
             <div className="main_docs">
                  {
                     files.map((ele,index)=>{
                         return (
-                            <Card  key={index} name={ele}/>
+                            <>
+                            <div className="docs-content">
+                               
+                                <div className="docs-report">
+                                    <Card_User key={index} name={ele}/>
+                                </div>
+                            </div>
+                            </>
                         )
                     })            
                  }
