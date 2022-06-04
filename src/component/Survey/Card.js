@@ -7,15 +7,17 @@ import { useHistory } from "react-router-dom";
 
 
 function Card({name}) {
+    console.log('name',name)
     const history = useHistory();
     function navigate_to(docname){
-        history.push("/survey/" + docname)
+        history.push("/survey/" + name.ID)
 
     }
     return (
         <div className="doc_card" onClick={(e)=>{
+            console.log('e', e)
             // navigate_to(name.ID)
-            navigate_to(name.id)
+            navigate_to(name.ID)
             // console.log('e',e)
         }}>
              <img src={doc_image} className="doc_card_image"></img>

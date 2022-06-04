@@ -3,7 +3,7 @@ import "./Question_form.css";
 import Content from "./Content.js";
 import CropOriginalIcon from "@material-ui/icons/CropOriginal";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-
+import DatePicker from "react-datepicker";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import Select from "@material-ui/core/Select";
@@ -58,6 +58,8 @@ import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import { postServey } from "../../redux/services";
 import Popup from "reactjs-popup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import axios from "axios";
 
@@ -65,10 +67,9 @@ function Question_form() {
   const [{}, dispatch] = useStateValue();
   const [questions, setQuestions] = useState([]);
   const [documentName, setDocName] = useState("Mẫu không có tiêu đề");
-
   const [documentDescription, setDocDesc] = useState("Mô tả biểu mẫu");
-
   const [questionType, setType] = useState("radio");
+  const [startDate, setStartDate] = useState(new Date());
   const [questionRequired, setRequired] = useState("true");
   let { id } = useParams();
 
@@ -88,16 +89,16 @@ function Question_form() {
 
   useEffect(() => {
     async function data_adding() {
-      var request = await axios.get(`http://localhost:3000/survey/${id}`);
-      console.log("sudeep");
+      var request = await axios.get(`https://localhost:44344/api/surveys/${id}`);
+      console.log("sudeep", request);
       var question_data = request.data.questions;
-      console.log(question_data);
-      var doc_name = request.data.document_name;
-      var doc_descip = request.data.doc_desc;
-      console.log(doc_name + " " + doc_descip);
+      var doc_name = request.data.survey.Title;
+      var doc_descip = request.data.survey.Description;
+      console.log('questions', question_data);
       setDocName(doc_name);
       setDocDesc(doc_descip);
       setQuestions(question_data);
+      // // setStartDate(endDate);
       dispatch({
         type: actionTypes.SET_DOC_NAME,
         doc_name: doc_name,
@@ -140,6 +141,7 @@ function Question_form() {
     setQuestions(questions);
   }
 
+
   const commitToDB = async () => {
     dispatch({
       type: actionTypes.SET_QUESTIONS,
@@ -156,13 +158,36 @@ function Question_form() {
     });
 
     axios.put(`http://localhost:3000/survey/${id}`, {
+      endDate: startDate,
       document_name: documentName,
       doc_desc: documentDescription,
       questions: questions,
     });
-    
+    toast.success("Update thành công", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
   };
-  const deletetoDB = async () => {};
+
+  const history = useHistory();
+  const deletetoDB = async () => {
+    await axios.delete(`http://localhost:3000/survey/${id}`);
+    toast.success("Xoá thành công", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+    history.push("/admin")
+  };
 
   function addMoreQuestionField() {
     expandCloseAll(); //I AM GOD
@@ -794,7 +819,21 @@ function Question_form() {
   }
 
   return (
+    
     <div dataFromParent={id}>
+       <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+          {/* Same as */}
+          <ToastContainer />
       <div className="question_form">
         <br></br>
         <div className="section">
@@ -819,6 +858,14 @@ function Question_form() {
                   setDocDesc(e.target.value);
                 }}
               ></input>
+              <div className="date-select">
+                <p>Chọn ngày kết thúc báo cáo</p>
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                />
+                {/* minDate={Date.now()} */}
+              </div>
             </div>
           </div>
 
@@ -845,12 +892,23 @@ function Question_form() {
                 Save
               </Button>
             </div>
-           
-              {/* <!-- Button trigger modal --> */}
-              <Popup modal trigger={<button>Click Me</button>}>
-                {close => <Content close={close} id={id}/>}
-             </Popup>
-          
+
+            {/* <!-- Button trigger modal --> */}
+            <Popup
+              modal
+              trigger={<button>Click Me</button>}
+              position="right center"
+            >
+              {(close) => (
+                <div className="popup-form">
+                  <p>Bạn có muốn xoá không?</p>
+                  <a className="close" onClick={close}>
+                    &times;
+                  </a>
+                  <button className="button" onClick={deletetoDB}>OUT</button>
+                </div>
+              )}
+            </Popup>
           </div>
         </div>
       </div>

@@ -11,14 +11,19 @@ import Templates from "./component/SurveyList/Templates";
 import User_form from "./component/View/User_form";
 import Home from './component/ViewUser/Pages/Home/index'
 import Blog from './component/ViewUser/Pages/Blog/index'
-import Profile from './component/ViewUser/Pages/Profile/index'
-import LoginForm from './component/ViewUser/Pages/Login/LoginForm'
+import Profile from './component/ViewUser/Pages/Profile/Profile'
+import ListProfile from "./component/ViewUser/Pages/Profile/ListProfile";
+// import ProfileUser from './component/ViewUser/Pages/Login/ProfileUser'
+// import LoginForm from './component/ViewUser/Pages/Login/LoginForm'
+// import LogoutForm from './component/ViewUser/Pages/Login/LogoutForm'
 // import Register from './component/ViewUser/Pages/Register/Register'
 
 function App() {
   return (
     <div className="app">
+     
       <Router>
+      
         <Switch>
           <Route path="/survey/:id">
             <Formheader />
@@ -31,7 +36,6 @@ function App() {
 
           <Route path="/report/:id">
             <Formheader />
-            {/* <Question_form /> */}
             <User_form />
           </Route>
 
@@ -48,15 +52,17 @@ function App() {
             <Templates />
             <Mainbody />
           </Route>
+          <Route path="/profile">
+            <ListProfile />
+          </Route>
 
           <Route path="/">
-            <Route path='/' exact component={Home} />
-            <Route path='/blog/:id' component={Blog} />
-            <Route path='/profile' component={Profile} />
-            <Route path='/login' component={LoginForm} />
-            {/* <Route path='/register' component={Register} /> */}
-            <Redirect to='/login' />
+            <Home />
           </Route>
+         
+          {/* <Route path='/' exact component={Home} /> */}
+          <Route path='/blog/:id' component={Blog} />
+         
         </Switch>
       </Router>
     </div>

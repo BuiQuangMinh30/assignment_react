@@ -15,10 +15,19 @@ const Home = () => {
   // console.log('blog',blogList)
   const [blogs, setBlogs] = useState([]);
   const [searchKey, setSearchKey] = useState('');
+  const dateCheck = Date.now();
+  let listData = []
   useEffect(() => {
     async function data_adding() {
     var request = await axios.get(`http://localhost:3000/survey/`);
-    setBlogs(request.data)
+    var getData = request.data
+    getData.map((data)=>{
+      if(new Date(data.endDate) >= dateCheck){
+          listData.push(data)
+      }
+    })
+   
+    setBlogs(listData)
   }
   data_adding();
 }, [searchKey])

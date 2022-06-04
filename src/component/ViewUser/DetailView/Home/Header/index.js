@@ -19,23 +19,36 @@ import {
 } from 'mdb-react-ui-kit';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import { useHistory } from "react-router-dom";
+import LoginForm from '../../../Pages/Login/LoginForm';
+import LogoutForm from '../../../Pages/Login/LogoutForm';
+import ProfileUser from '../../../Pages/Login/ProfileUser';
+import { useAuth0 } from '@auth0/auth0-react'
 
 export default function Header() {
   const history = useHistory();
   const [showBasic, setShowBasic] = useState(false);
+  const {loginWithRedirect,isAuthenticated} = useAuth0();
+  const location = {
+    pathprofile: '/profile',
+    pathhome: '/',
+    // state: { fromDashboard: true }
+  }
   const navigate_to = () =>{
-    history.push("/profile/")
+   
+    history.replace('/profile')
   }
-  const navigate_to_login = () =>{
-    history.push("/login/")
+  const navigate_to_home = () =>{
+    history.replace('/')
   }
-  
+ 
   return (
    
      <>
      <MDBNavbar expand='lg' light bgColor='light'>
       <MDBContainer fluid>
-        <MDBNavbarBrand href='#'>Toang C#</MDBNavbarBrand>
+        <MDBNavbarBrand onClick={(e)=>{
+                  navigate_to_home()
+                 }}>Toang C#</MDBNavbarBrand>
 
         <MDBNavbarToggler
           aria-controls='navbarSupportedContent'
@@ -49,12 +62,14 @@ export default function Header() {
         <MDBCollapse navbar show={showBasic}>
           <MDBNavbarNav className='mr-auto mb-2 mb-lg-0'>
             <MDBNavbarItem>
-              <MDBNavbarLink active aria-current='page' href='#'>
+              <MDBNavbarLink active aria-current='page'  onClick={(e)=>{
+                  navigate_to_home()
+                 }}>
                 Home
               </MDBNavbarLink>
             </MDBNavbarItem>
             <MDBNavbarItem>
-              <MDBNavbarLink href='#'>Link</MDBNavbarLink>
+              <MDBNavbarLink >Link</MDBNavbarLink>
             </MDBNavbarItem>
 
             <MDBNavbarItem>
@@ -77,24 +92,20 @@ export default function Header() {
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-              <MDBNavbarLink style={{cursor: 'pointer'}} aria-current='page' onClick={(e)=>{
+              {isAuthenticated && (<MDBNavbarLink style={{cursor: 'pointer'}} aria-current='page' onClick={(e)=>{
                   navigate_to()
                  }}>
                 Profile
-              </MDBNavbarLink>
+              </MDBNavbarLink>)}
             </MDBNavbarItem>
           </MDBNavbarNav>
 
-          <MDBBtn rounded className='mx-2' color='dark' onClick={(e)=>{
-                  navigate_to_login()
-                 }}>
-        Login
-      </MDBBtn>
+          <LoginForm/>
+          <LogoutForm/>
+          {/* <ProfileUser/> */}
         </MDBCollapse>
       </MDBContainer>
     </MDBNavbar>
-   
-    
       </>
     
   );

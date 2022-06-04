@@ -11,12 +11,10 @@ import { ToastContainer, toast } from 'react-toastify';
 function Content ({ close,id }) {
     const history = useHistory();
     const deletetoDB = async () => {
-        // await axios.delete(`http://localhost:3000/survey/${id}`);
+        await axios.delete(`http://localhost:3000/survey/${id}`);
         // axios.get(`http://localhost:3000/survey/`)
         //  setTimeout((history.push("/")),2500)
-        toast.error('Runtime error', {
-          // Set to 15sec
-          position: toast.POSITION.BOTTOM_LEFT, autoClose:15000})
+       
     };
         return (
     

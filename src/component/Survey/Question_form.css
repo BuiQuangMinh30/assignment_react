@@ -219,8 +219,11 @@ background:transparent;
     border-radius:3px;
     height:180px;
     width:35px;
-    
 
+}
+.question_edit .edit{
+    height: 34px;
+    width: 34px;
 }
 
 .edit{
@@ -253,76 +256,22 @@ background:transparent;
     gap: 15px;
 }
 /* index.css */ 
-.modal {
-    font-size: 12px;
-    background: gray;
-  }
-  .modal > .header {
-    width: 100%;
-    border-bottom: 1px solid gray;
-    font-size: 18px;
-    text-align: center;
-    background: silver;
-  }
-  .header {
-    position: sticky;
-    margin-left: 0px;
-    /* margin-right: 10px; */
-    padding-top: 5px;
-    padding-bottom: 5px;
-    display: flex;
-    height: 47px;
-    background-color: white;
-    color: black;
-    justify-content: space-between;
-    align-items: center;
-}
-  .modal > .content {
-    width: 100%;
-    padding: 10px 5px;
-    font-size: 16px;
-  }
-  .modal > .actions {
-    margin: auto;
-  }
-  .modal > .actions {
-    width: 100%;
-    padding: 10px 5px;
-    text-align: center;
-  }
-  .modal > .close {
-      cursor: pointer;
-    position: absolute;
+.popup-form{
     display: block;
-    padding: 4px 6px;
-    line-height: 20px;
-    right: -10px;
-    top: -8px;
-    font-size: 24px;
-    background: #ffffff;
-    border-radius: 18px;
-    border: 1px solid #cfcece;
-    z-index: 100;
-    justify-content: center;
-    justify-items: center;
-  }
-  .modal-button{
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin: 5px;
-  }
-  .modal-button .button {   
-      cursor: pointer;
-    padding: 5px;
-    border: none;
-    border-radius: 5px;
-    background: rgb(62 147 206);
-    color: white;
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-.button-delete{
-    background: rgb(217, 224, 79) !important;
-    color: rgb(42, 41, 41) !important;
-  }
+    width: 300px;
+    height: 150px;
+    background: #a9a6a9;
+}
+.popup-form p{
+    text-align: center;
+}
+.close {
+    font-size: calc(1.275rem + 0.3vw);
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+    float: right;
+}
+  

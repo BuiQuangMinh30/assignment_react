@@ -145,6 +145,7 @@ function User_form() {
         axios.post(`http://localhost:3000/answer_request/`, {
           id: idText,
           cloumn: email,
+          doc_name: doc_name,
           list_answer: answer,
         });
         history.push(`/submitted`);
@@ -224,6 +225,7 @@ function User_form() {
                             {ques.optionText}
                           </label>
                         ) : (
+                          //input
                           <label>
                             <input
                               key={index}
@@ -233,6 +235,9 @@ function User_form() {
                               className="form-check-input"
                               required={question.required}
                               style={{
+                                width:"200px",
+                                height: "30px",
+                                borderRadius: "5px",
                                 marginLeft: "5px",
                                 marginRight: "5px",
                               }}
@@ -247,6 +252,7 @@ function User_form() {
                           </label>
                         )
                       ) : (
+                        //checkbox
                         <label>
                           <input
                             type={question.questionType}

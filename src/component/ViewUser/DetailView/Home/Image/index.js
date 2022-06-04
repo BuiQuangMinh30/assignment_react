@@ -12,7 +12,7 @@ export default function index() {
             <div className='text-white'>
               <h1 className='mb-3'>Heading</h1>
               <h4 className='mb-3'>Subheading</h4>
-              <a className='btn btn-outline-light btn-lg' href='#!' role='button'>
+              <a className=' btn-outline-light btn-lg' href='#!' role='button'>
                 Call to action
               </a>
             </div>

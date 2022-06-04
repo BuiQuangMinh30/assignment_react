@@ -15,8 +15,7 @@ function Mainbody() {
         async function filenames(){
             
             // var request = await axios.get("https://localhost:44334/api/surveys")
-            var request = await axios.get("http://localhost:3000/survey/")
-            
+            var request = await axios.get("https://localhost:44344/api/surveys")
             let files = request.data;
             setFiles(files)
         }

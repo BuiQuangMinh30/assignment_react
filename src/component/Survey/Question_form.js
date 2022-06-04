@@ -91,36 +91,6 @@ function Question_form() {
     setQuestions([...questions, newQuestion]);
   }, []);
 
-  // useEffect(() => {
-  //   async function data_adding() {
-  //     var request = await axios.get(`http://localhost:3000/survey/${id}`);
-  //     console.log("sudeep");
-  //     var question_data = request.data.questions;
-  //     console.log(question_data);
-  //     var doc_name = request.data.document_name;
-  //     var doc_descip = request.data.doc_desc;
-  //     console.log(doc_name + " " + doc_descip);
-  //     setDocName(doc_name);
-  //     setDocDesc(doc_descip);
-  //     setQuestions(question_data);
-  //     dispatch({
-  //       type: actionTypes.SET_DOC_NAME,
-  //       doc_name: doc_name,
-  //     });
-
-  //     dispatch({
-  //       type: actionTypes.SET_DOC_DESC,
-  //       doc_desc: doc_descip,
-  //     });
-  //     dispatch({
-  //       type: actionTypes.SET_QUESTIONS,
-  //       questions: question_data,
-  //     });
-  //   }
-
-  //   data_adding();
-  // }, []);
-
   function changeType(e) {
     dispatch({
       type:"CHANGE_TYPE",
@@ -162,7 +132,7 @@ function Question_form() {
     });
     axios.post(`http://localhost:3000/survey/`, {
           id: id,
-          endDate: setStartDate,
+          endDate: startDate,
           document_name: documentName,
           doc_desc: documentDescription,
           questions: questions,
