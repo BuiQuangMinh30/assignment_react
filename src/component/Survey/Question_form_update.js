@@ -89,16 +89,17 @@ function Question_form() {
 
   useEffect(() => {
     async function data_adding() {
-      var request = await axios.get(`https://localhost:44344/api/surveys/${id}`);
+      var request = await axios.get(`http://localhost:3000/survey/${id}`);
       console.log("sudeep", request);
       var question_data = request.data.questions;
-      var doc_name = request.data.survey.Title;
-      var doc_descip = request.data.survey.Description;
-      console.log('questions', question_data);
+      // var endDate = new Date(request.data.endDate);
+      var doc_name = request.data.document_name;
+      var doc_descip = request.data.doc_desc;
+      console.log(doc_name + " " + doc_descip);
       setDocName(doc_name);
       setDocDesc(doc_descip);
       setQuestions(question_data);
-      // // setStartDate(endDate);
+      // setStartDate(endDate);
       dispatch({
         type: actionTypes.SET_DOC_NAME,
         doc_name: doc_name,
@@ -905,7 +906,7 @@ function Question_form() {
                   <a className="close" onClick={close}>
                     &times;
                   </a>
-                  <button className="button" onClick={deletetoDB}>OUT</button>
+                  <button className="button btn-delete" onClick={deletetoDB}>Có</button>
                 </div>
               )}
             </Popup>

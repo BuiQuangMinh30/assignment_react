@@ -125,3 +125,13 @@
     outline: none;
   }
 
+.btn-click{
+  width: 100px;
+    height: 40px;
+    border: none;
+    background-color: #61b0f6;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 800;
+    text-transform: uppercase;
+}

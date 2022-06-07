@@ -4,7 +4,7 @@ import JSONPretty from 'react-json-pretty'
 
 const ProfileUser = () => {
     const { user, isAuthenticated, isLoading } = useAuth0();
-    // console.log('user', useAuth0())
+    console.log('user', useAuth0())
   
     if (isLoading) {
       return <div>Loading ...</div>;

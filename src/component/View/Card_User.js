@@ -9,6 +9,7 @@ import { useHistory } from "react-router-dom";
 function Card_User({name}) {
     const history = useHistory();
     console.log("name",name)
+   
     function navigate_to(docname){
         history.push("/report/" + docname)
 

@@ -73,22 +73,7 @@ export default function Header() {
             </MDBNavbarItem>
 
             <MDBNavbarItem>
-              <MDBDropdown>
-                <MDBDropdownToggle tag='a' className='nav-link'>
-                  Dropdown
-                </MDBDropdownToggle>
-                <MDBDropdownMenu>
-                  <MDBDropdownItem>
-                    <MDBDropdownLink>Action</MDBDropdownLink>
-                  </MDBDropdownItem>
-                  <MDBDropdownItem>
-                    <MDBDropdownLink>Another action</MDBDropdownLink>
-                  </MDBDropdownItem>
-                  <MDBDropdownItem>
-                    <MDBDropdownLink>Something else here</MDBDropdownLink>
-                  </MDBDropdownItem>
-                </MDBDropdownMenu>
-              </MDBDropdown>
+              
             </MDBNavbarItem>
 
             <MDBNavbarItem>

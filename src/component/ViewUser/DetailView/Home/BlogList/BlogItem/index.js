@@ -11,13 +11,13 @@ const BlogItem = ({
     authorName,
     authorAvatar,
     cover,
-    category,
+    endDate,
     id,
   },
 }) => {
   return (
     <div className='blogItem-wrap'>
-      <img className='blogItem-cover' src="/assets/images/graphic-design-trends.png" alt='cover' />
+      <img className='blogItem-cover' src="https://thuthuatoffice.net/wp-content/uploads/2021/08/googledocs.webp" alt='cover' />
       <Chip label={document_name} />
       <h3>{title}</h3>
       <p className='blogItem-desc'>{doc_desc}</p>
@@ -26,7 +26,7 @@ const BlogItem = ({
           <img src="/assets/images/make-it-personal.jpg" alt='avatar' />
           <div>
             <h6>{authorName}</h6>
-            {/* <p>{createdAt}</p> */}
+            <p>{endDate}</p>
           </div>
         </div>
         <Link className='blogItem-link' to={`/report/${id}`}>

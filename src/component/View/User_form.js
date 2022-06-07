@@ -12,7 +12,7 @@ import { Icon, Input } from "semantic-ui-react";
 import validator from "validator";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { useAuth0 } from '@auth0/auth0-react'
 function User_form() {
   var quest = [];
   var post_answer = [];
@@ -21,7 +21,10 @@ function User_form() {
   var [answer, setAnswer] = useState([]);
   var [email, setEmail] = useState("");
   var [{ questions, doc_name, doc_desc }, dispatch] = useStateValue();
-  console.log("email: " + email);
+  // console.log("email: " + email);
+  const { user, isAuthenticated, isLoading } = useAuth0();
+    
+   
 
   let { id } = useParams();
   const d = new Date();
@@ -71,7 +74,10 @@ function User_form() {
 
     data_adding();
   }, []);
-
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+  console.log('user', user.email)
   var post_answer_data = {};
   function selectinputText(que, value, index) {
     var k = answer.findIndex((ele) => ele.question == que);
@@ -120,7 +126,7 @@ function User_form() {
     });
     delete answer.shift(0);
     
-    if (!validator.isEmail(email)) {
+    if (!user.email) {
       console.log("err");
       toast.error("Lỗi rồi, phải nhập đúng email", {
         position: "top-right",
@@ -144,7 +150,7 @@ function User_form() {
         });
         axios.post(`http://localhost:3000/answer_request/`, {
           id: idText,
-          cloumn: email,
+          cloumn: user.email,
           doc_name: doc_name,
           list_answer: answer,
         });
@@ -161,7 +167,7 @@ function User_form() {
             <Typography style={{ fontSize: "26px" }}>{doc_name}</Typography>
             <Typography style={{ fontSize: "15px" }}>{doc_desc}</Typography>
             <br />
-            <label>Nhập email của bạn</label>
+            {/* <label>Nhập email của bạn</label>
             <Input
               className="input-email"
               onChange={(e) => setEmail(e.target.value)}
@@ -170,7 +176,7 @@ function User_form() {
             >
               <Icon name="at" />
               <input />
-            </Input>
+            </Input> */}
           </div>
           <ToastContainer
             position="top-right"
@@ -213,7 +219,7 @@ function User_form() {
                               value={ques.optionText}
                               className="form-check-input"
                               required={question.required}
-                              style={{ marginLeft: "5px", marginRight: "5px" }}
+                              style={{  marginRight: "5px" }}
                               onChange={(e) => {
                                 selectcheck(
                                   e.target.checked,
@@ -238,7 +244,7 @@ function User_form() {
                                 width:"200px",
                                 height: "30px",
                                 borderRadius: "5px",
-                                marginLeft: "5px",
+                                // marginLeft: "5px",
                                 marginRight: "5px",
                               }}
                               onChange={(e) => {
@@ -260,7 +266,7 @@ function User_form() {
                             value={ques.optionText}
                             className="form-check-input"
                             required={question.required}
-                            style={{ marginLeft: "5px", marginRight: "5px" }}
+                            style={{ marginRight: "5px" }}
                             onChange={() => {
                               select(question.questionText, ques.optionText);
                             }}

@@ -23,4 +23,27 @@
     <div id="root"></div>
   
   </body>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.2/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyAzH7pMnB-y-KwCT4wWn8x05mwe5_F82Qw",
+      authDomain: "survey-d30t10.firebaseapp.com",
+      projectId: "survey-d30t10",
+      storageBucket: "survey-d30t10.appspot.com",
+      messagingSenderId: "1015704188677",
+      appId: "1:1015704188677:web:929a33e2688a0677a2a96c",
+      measurementId: "G-6VPR1X1R72"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
 </html>

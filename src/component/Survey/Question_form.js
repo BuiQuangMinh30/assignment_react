@@ -73,6 +73,9 @@ function Question_form() {
   const [documentDescription, setDocDesc] = useState("Mô tả biểu mẫu");
   const [questionType, setType] = useState("radio");
   const [questionRequired, setRequired] = useState("true");
+  // let dateCreate = Date.now();
+  // console.log('dateCreate', dateCreate)
+  const [dateCreate, setDateCreated] = useState(Date.now());
   let { id } = useParams();
   console.log('id question form', startDate)
 
@@ -133,6 +136,7 @@ function Question_form() {
     axios.post(`http://localhost:3000/survey/`, {
           id: id,
           endDate: startDate,
+          dateCreate: dateCreate,
           document_name: documentName,
           doc_desc: documentDescription,
           questions: questions,
