@@ -5,12 +5,7 @@ import { Chart } from 'react-google-charts';
 
 
 function ChartSurvey({arrMonth}) {
-     const arrGet = []
-     console.log('arrMonth123',arrMonth)
-     arrMonth.map((ele,i)=>{
-          console.log('ele', ele   )
-     })
-     // console.log('arrGet',arrGet[1], typeof(arrGet[1]))
+     // 
      
       const data = [
           ["Year", "Sales", "Expenses", "Profit", "1", "2"],

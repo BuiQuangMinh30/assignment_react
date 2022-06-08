@@ -18,12 +18,11 @@ import AlertDialog from '../../Alert';
 import axios from "axios";
 import { useParams } from "react-router";
 
-function Formheader(props) {
+function Formheader() {
     let { id } = useParams();
     const history = useHistory();
     const [{doc_name}, dispatch] = useStateValue();
     const [files,setFiles]=useState([]);
-    console.log('id', id)
     useEffect(() => {
     async function filenames(){
         

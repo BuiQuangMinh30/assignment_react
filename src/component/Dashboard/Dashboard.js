@@ -7,7 +7,7 @@ import Header from "../SurveyList/Header";
 import Mainbody from "../SurveyList/Mainbody";
 import Card from "../Survey/Card";
 import ListSurvey from "./ListSurvey";
-import PaginatedItems from "./ListSurvey";
+import Pagination from "./ListSurvey";
 import Templates from "../SurveyList/Templates";
 import ChartSurvey from "./ChartSurvey";
 import axios from "axios";
@@ -30,7 +30,8 @@ export default function Dashboard() {
   files.map((ele,index)=>{
       listItems.push(index+1);
     })
-    files.map((file,index)=>{
+   
+  files.map((file,index)=>{
       arrMonth.push((new Date(file.endDate)))
     })
   return (
@@ -58,7 +59,7 @@ export default function Dashboard() {
                 <Tab.Pane eventKey="first"> <ChartSurvey arrMonth={arrMonth}/></Tab.Pane>
                 <Tab.Pane eventKey="second">
                      {/* <Card/> */}
-                     <PaginatedItems listFiles={files} listItems={listItems} itemsPerPage={4}/>
+                     <Pagination files={files}/>
                 </Tab.Pane>
               </Tab.Content>
             </Col>

@@ -1,101 +1,76 @@
 import React, { useState, useEffect } from "react";
-import StorageIcon from "@material-ui/icons/Storage";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import FolderOpenIcon from "@material-ui/icons/FolderOpen";
-import { IconButton } from "@material-ui/core";
-import CardSurvey from "./CardSurvey";
-import axios from "axios";
-import {
-  Container,
-  Button,
-  Navbar,
-  Row,
-  Col,
-  Nav,
-  CardGroup,
-  Tab,
-} from "react-bootstrap";
-import ReactDOM from 'react-dom';
-import ReactPaginate from 'react-paginate';
+// import "./styles.css";
+import { Container, Card, Row, Col, Nav, Sonnet, Tab } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import CardSurvey from './CardSurvey'
+
+const Pagination = ({files}) => {
+
+  // const [post, setPost] = useState([]);
+  const [number, setNumber] = useState(1); // No of pages
+  const [postPerPage] = useState(6);
+  const history = useHistory();
 
 
-// Example items, to simulate fetching from another resources.
-const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-const listItems = []
-export default  function PaginatedItems({ itemsPerPage, listItems,listFiles }) {
-  // We start with an empty list of items.
-  const [currentItems, setCurrentItems] = useState(listFiles);
-  const [pageCount, setPageCount] = useState(0);
-  // Here we use item offsets; we could also use page offsets
-  // following the API or data you're working with.
-  const [itemOffset, setItemOffset] = useState(0);
-  const [files, setFiles] = useState([]);
 
-  useEffect(() => {
-    async function filenames() {
-      // var request = await axios.get("https://localhost:44334/api/surveys")
-      var request = await axios.get("http://localhost:3000/survey/");
 
-      let files = request.data;
-      setFiles(files);
-    }
-    filenames();
-  }, []);
-  // files.map((ele,index)=>{
-  //   listItems.push(index+1);
-  // })
-  // console.log('listItems',listItems)
+  const lastPost = number * postPerPage;
+  const firstPost = lastPost - postPerPage;
+  const currentPost = files.slice(firstPost, lastPost);
+  const pageNumber = [];
 
-  useEffect(() => {
-    // console.log('hehe')
-    // Fetch items from another resources.
-    const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    setCurrentItems(listItems.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(listItems.length / itemsPerPage));
-  }, [listItems, itemsPerPage]);
+  for (let i = 1; i <= Math.ceil(files.length / postPerPage); i++) {
+    pageNumber.push(i);
+  }
 
-  // Invoke when user click to request another page.
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % listItems.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
-    setItemOffset(newOffset);
+  const ChangePage = (pageNumber) => {
+    setNumber(pageNumber);
+    console.log("number changed", pageNumber);
   };
-
+ 
   return (
     <>
-      <ListSurvey listFiles={listFiles} currentItems={currentItems} />
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel="next >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={2}
-        pageCount={pageCount}
-        previousLabel="< previous"
-        renderOnZeroPageCount={null}
-      />
-    </>
-  );
-}
+      <Container>
+        <Row>
+          {currentPost.map((Val) => {
+            return (
+               <CardSurvey data={Val}/>
+              
+            );
+          })}
 
-function ListSurvey({listFiles, currentItems}) {
-  return (
-    <>
-      <div>
-        <Container>
-          <Row>
-            {currentItems.map((ele, index) => {
+          <div className="my-3 text-center">
+            <button
+              className="px-3 py-1 m-1 text-center btn-primary"
+              onClick={() => setNumber(number - 1)}
+            >
+              Previous
+            </button>
+
+            {pageNumber.map((Elem) => {
               return (
-                <Col style={{ float: "left" }} md={4} sm={4}>
-                  <CardSurvey className="col-4" key={index} name={ele} />
-                </Col>
+                <>
+                  <button
+                    className="px-3 py-1 m-1 text-center btn-outline-dark"
+                    onClick={() => ChangePage(Elem)}
+                  >
+                    {Elem}
+                  </button>
+                </>
               );
             })}
-          </Row>
-        </Container>
-      </div>
+            <button
+              className="px-3 py-1 m-1 text-center btn-primary"
+              onClick={() => setNumber(number + 1)}
+            >
+              Next
+            </button>
+            {/* const asd = (second) => { third } */}
+          </div>
+        </Row>
+      </Container>
     </>
   );
-}
+};
+
+export default Pagination;
