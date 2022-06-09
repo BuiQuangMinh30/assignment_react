@@ -3,9 +3,11 @@ import { Button, Typography } from "@material-ui/core";
 
 import { useParams } from "react-router";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import "./user_form.css";
 function SubmitForm() {
+  const history = useHistory();
   return (
     <div className="submit">
       <div className="user_form">
@@ -17,15 +19,15 @@ function SubmitForm() {
                 fontFamily: "'Google Sans','Roboto','Arial','sans-serif'",
               }}
             >
-              Untitled Form 123
+              Untitled Form
             </Typography>
             <br></br>
             <Typography style={{ fontSize: "13px", fontWeight: "400" }}>
               Your response has been recorded.
             </Typography>
             <br></br>
-            <a href="#1" style={{ fontSize: "13px" }}>
-              Submit another response
+            <a href="/" style={{ fontSize: "13px" }} onClick={() => history.pushState('/')}>
+              Back to home page
             </a>
           </div>
         </div>

@@ -77,7 +77,6 @@ function User_form() {
   if (isLoading) {
     return <div>Loading ...</div>;
   }
-  console.log('user', user.email)
   var post_answer_data = {};
   function selectinputText(que, value, index) {
     var k = answer.findIndex((ele) => ele.question == que);
@@ -151,6 +150,7 @@ function User_form() {
         axios.post(`http://localhost:3000/answer_request/`, {
           id: idText,
           cloumn: user.email,
+          dateSubmit: d,
           doc_name: doc_name,
           list_answer: answer,
         });
@@ -167,16 +167,7 @@ function User_form() {
             <Typography style={{ fontSize: "26px" }}>{doc_name}</Typography>
             <Typography style={{ fontSize: "15px" }}>{doc_desc}</Typography>
             <br />
-            {/* <label>Nhập email của bạn</label>
-            <Input
-              className="input-email"
-              onChange={(e) => setEmail(e.target.value)}
-              iconPosition="left"
-              placeholder="Email"
-            >
-              <Icon name="at" />
-              <input />
-            </Input> */}
+          
           </div>
           <ToastContainer
             position="top-right"

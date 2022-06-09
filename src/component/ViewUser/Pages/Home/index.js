@@ -4,6 +4,7 @@ import BlogList from '../../DetailView/Home/BlogList';
 import Header from '../../DetailView/Home/Header';
 import Image from '../../DetailView/Home/Image';
 import SearchBar from '../../DetailView/Home/SearchBar';
+import Footer from '../../DetailView/Home/Footer';
 // import { blogList } from '../../data';
 import axios from "axios";
 
@@ -68,6 +69,8 @@ const Home = () => {
 
       {/* Blog List & Empty View */}
       {!blogs.length ? <EmptyList /> : <BlogList blogs={blogs} />}
+
+      <Footer/>
     </div>
   );
 };

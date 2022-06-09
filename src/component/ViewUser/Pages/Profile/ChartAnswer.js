@@ -7,7 +7,6 @@ function ChartAnswer({listData}) {
       setDataa(listData)
     },listData)
 
-    console.log('data', dataArr)
   return (
     <div className="row">
           {dataArr && dataArr.map((data)=>{

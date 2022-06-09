@@ -35,10 +35,10 @@ export default function Header() {
   }
   const navigate_to = () =>{
    
-    history.replace('/profile')
+    history.push('/profile')
   }
   const navigate_to_home = () =>{
-    history.replace('/')
+    history.push('/')
   }
  
   return (

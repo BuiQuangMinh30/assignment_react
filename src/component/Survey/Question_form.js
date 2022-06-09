@@ -106,17 +106,7 @@ function Question_form() {
     setType(questionType);
   }, [changeType]);
 
-  function saveQuestions() {
-    console.log("auto saving questions initiated");
-    var data = {
-      formId: "1256",
-      name: "My-new_file",
-      description: "first file",
-      questions: questions,
-    };
-
-    setQuestions(questions);
-  }
+  
 
   const commitToDB = async() => {
     
@@ -146,7 +136,7 @@ function Question_form() {
  
 
   function addMoreQuestionField() {
-    expandCloseAll(); //I AM GOD
+    expandCloseAll(); 
 
     setQuestions((questions) => [
       ...questions,

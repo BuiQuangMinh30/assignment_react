@@ -4,30 +4,22 @@ import { Chart } from 'react-google-charts';
 
 
 
-function ChartSurvey({arrMonth}) {
-     // 
-     
-      const data = [
-          ["Year", "Sales", "Expenses", "Profit", "1", "2"],
-          ["2014",5,6,7,8,9]
-          // arrMonth.map((ele,i)=>{
-          //     [ele]
-          // })
-        ];
-        
+function ChartSurvey(props) {
+  const {listData} = props;
+      const data = listData.map((ele,i)=> {return ele})
+    
           const options = {
           chart: {
             title: "Company Performance",
-            subtitle: "Sales, Expenses, and Profit: 2014-2017",
+            subtitle: "Year, Survey, and Profit",
           },
         };
-        
          
   return (
      <Chart
      chartType="Bar"
-     width="100%"
-     height="400px"
+     width="700px"
+     height="600px"
      data={data}
      options={options}
    />

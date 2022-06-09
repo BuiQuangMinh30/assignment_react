@@ -20,7 +20,7 @@ function ListProfile() {
         if (isLoading) {
           return <div>Loading ...</div>;
         }
-        console.log('hehe',answer)
+        // console.log('hehe',answer) 
   return (
     <div>
          <Profile answer={answer} user={user}/>

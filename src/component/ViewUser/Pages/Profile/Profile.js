@@ -10,7 +10,6 @@ import ListProfile from "./ListProfile";
 const Profile = (props) => {
   // const { user, isAuthenticated, isLoading } = useAuth0();
   const {answer, user} = props;
-  console.log('1',user, answer);
   
   let listData = [];
   useEffect(() => {
